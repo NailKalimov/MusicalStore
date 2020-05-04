@@ -13,7 +13,7 @@ import java.util.Collection;
 public class Track {
     @Id
     @Column(name = "id_track")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter
     @Getter
     Long trackId;

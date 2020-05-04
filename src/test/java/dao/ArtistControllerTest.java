@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ArtistControllerTest {
     ArtistController artistController = new ArtistController();

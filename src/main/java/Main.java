@@ -47,7 +47,7 @@ public class Main {
     /**
      * Заполнение базы данными
      */
-    public static void setUpDB(){
+    public static void setUpDB() {
         EntityManagerFactory entityManagerFactory; //= Persistence.createEntityManagerFactory("entityManager");
         Album album = new Album();
         album.setAlbumName("Звезда по имени Солнце");

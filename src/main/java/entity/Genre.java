@@ -10,7 +10,7 @@ import java.util.Collection;
 public class Genre {
     @Id
     @Column(name = "id_genre")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter
     @Getter
     Long genreId;
