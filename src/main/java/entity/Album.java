@@ -1,21 +1,16 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.Year;
 import java.util.Collection;
 
 @Entity
-public class Album {
-    @Id
-    @Column(name = "id_album")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter
-    @Getter
-    Long albumId;
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Album.class)
+public class Album extends AbstractIdentityObject {
     @Getter
     @Setter
     private String albumName;
@@ -27,7 +22,7 @@ public class Album {
 
     @Getter
     @Setter
-    private Year releaseDate;
+    private String releaseDate;
 
     @Getter
     @Setter

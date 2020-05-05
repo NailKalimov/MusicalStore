@@ -1,5 +1,8 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,15 +12,9 @@ import java.time.Duration;
 import java.util.Collection;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Track.class)
 @ToString
-public class Track {
-    @Id
-    @Column(name = "id_track")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter
-    @Getter
-    Long trackId;
-
+public class Track extends AbstractIdentityObject {
     @Getter
     @Setter
     private String trackName;
@@ -31,6 +28,7 @@ public class Track {
     )
     private Collection<Artist> artists;
 
+    @JsonIgnore
     @Getter
     @Setter
     private Duration playTime;

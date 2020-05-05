@@ -11,9 +11,9 @@
             <property name="hibernate.connection.password" value="postgress"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create" />
-                        <property name="show_sql" value="true"/>
-                        <property name="format_sql" value="true"/>
-                        <property name="use_sql_comments" value="true"/>
+            <property name="show_sql" value="true"/>
+            <property name="format_sql" value="true"/>
+            <property name="use_sql_comments" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

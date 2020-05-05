@@ -31,7 +31,7 @@ public class GenreController extends AbstractController<Genre, Long> {
     public Genre getEntityById(Long id) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        Genre result = em.createQuery("from Genre as g where g.genreId = :name", Genre.class).
+        Genre result = em.createQuery("from Genre as g where g.id = :name", Genre.class).
                 setParameter("name", id).
                 getSingleResult();
         em.getTransaction().commit();
@@ -43,7 +43,7 @@ public class GenreController extends AbstractController<Genre, Long> {
     public boolean deleteById(Long id) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        List<Track> resultList = em.createQuery("from Track where genre.genreId=:id", Track.class).
+        List<Track> resultList = em.createQuery("from Track where genre.id=:id", Track.class).
                 setParameter("id", id).
                 getResultList();
         if (resultList.size() > 0) {
@@ -55,7 +55,7 @@ public class GenreController extends AbstractController<Genre, Long> {
             em.getTransaction().commit();
             em.getTransaction().begin();
         }
-        int res = em.createQuery("DELETE Genre WHERE genreId=:id").
+        int res = em.createQuery("DELETE Genre WHERE id=:id").
                 setParameter("id", id).executeUpdate();
         em.getTransaction().commit();
         em.close();

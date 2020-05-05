@@ -7,3 +7,7 @@ Artist, Genre(package: entity). Для каждой сущности реали�
 One-To-Many и Many-To-Many.
 
 ![alt text](Schema.PNG "Schema")
+
+##JSON
+Операции преобразования объектов-сущностей в JSON реализованы в классе src/main/java/JsonConverter.
+Тесты методов этого класса находятся в src/test/java/JsonConverterTest.

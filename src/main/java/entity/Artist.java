@@ -1,20 +1,16 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Artist.class)
 @Entity
-public class Artist {
-    @Id
-    @Column(name = "id_artist")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter
-    @Getter
-    Long artistId;
-
+public class Artist extends AbstractIdentityObject {
     @Getter
     @Setter
     private String artistName;

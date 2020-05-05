@@ -1,5 +1,4 @@
-package dao;
-
+import dao.*;
 import entity.Album;
 import entity.Artist;
 import entity.Genre;
@@ -12,17 +11,17 @@ import javax.persistence.Persistence;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ArtistControllerTest {
-    ArtistController artistController = new ArtistController();
+public class JsonConverterTest {
+    public static final String FILE_NAME = "testSerialize";
+    JsonConverter converter = new JsonConverter();
 
     @BeforeAll
     public void setUp() {
-        EntityManagerFactory entityManagerFactory;
-
         Album album = new Album();
         album.setAlbumName("Звезда по имени Солнце");
         album.setReleaseDate("1989");
@@ -103,7 +102,7 @@ class ArtistControllerTest {
         track4.setPlayTime(Duration.parse("PT4M27S"));
         track4.setGenre(rRap);
 
-        entityManagerFactory = Persistence.createEntityManagerFactory(EntityManagerFactorySingleton.FILE_NAME);
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(EntityManagerFactorySingleton.FILE_NAME);
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         em.persist(track);
@@ -117,32 +116,45 @@ class ArtistControllerTest {
     }
 
     @Test
-    public void testGetAllGenre() {
-        artistController.getAll().forEach(System.out::println);
+    public void testSerializeGenreByJacksonNotNull() {
+        GenreController genreController = new GenreController();
+        assertNotNull(converter.convertObjectToString(genreController.getEntityById(2L)));
     }
 
     @Test
-    public void testUpdateGenre() {
-        Artist testArtist = new Artist();
-        testArtist.setId(6L);
-        testArtist.setArtistName("Updated_Name");
-        artistController.update(testArtist);
+    public void testSerializeArtistByJacksonNotNull() {
+        ArtistController artistController = new ArtistController();
+        assertNotNull(converter.convertObjectToString(artistController.getEntityById(1L)));
     }
 
     @Test
-    public void testGetEntityById() {
-        System.out.println(artistController.getEntityById(1L));
+    public void testSerializeAlbumByJacksonNotNull() {
+        AlbumController albumController = new AlbumController();
+        assertNotNull(converter.convertObjectToString(albumController.getEntityById(1L)));
     }
 
     @Test
-    public void testCreate() {
-        Artist newArtist = new Artist();
-        newArtist.setArtistName("Created_Artist");
-        artistController.create(newArtist);
+    public void testSerializeGenreInFile() {
+        GenreController genreController = new GenreController();
+        List<Genre> genre = genreController.getAll();
+        genre.forEach(o -> o.setGenreName("testSerializeGenreInFile"));
+        converter.convertObjectToJsonFile(genre, FILE_NAME);
     }
 
     @Test
-    public void testDeleteById() {
-        assertTrue(artistController.deleteById(2L));
+    public void testConvertJSONFileToListOfOjectsAndUploadingInDB() {
+        List<Genre> genre = converter.convertJSONFileToListOfOjects(FILE_NAME, Genre.class);
+        GenreController genreController = new GenreController();
+        genre.forEach(o -> o.setGenreName("testConvertJSONFileToListOfOjectsAndUploadingInDB"));
+        genre.forEach(genreController::update);
+    }
+
+    @Test
+    public void testConvertStringToObjectAndUploadingInDB() {
+        TrackController trackController = new TrackController();
+        String str = converter.convertObjectToString(trackController.getEntityById(1L));
+        Track track = converter.convertStringToObject(str, Track.class);
+        track.setTrackName("convertStringToObjectTest");
+        trackController.update(track);
     }
 }

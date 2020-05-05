@@ -1,7 +1,6 @@
 package dao;
 
 import entity.Album;
-import entity.Track;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -31,7 +30,7 @@ public class AlbumController extends AbstractController<Album, Long> {
     public Album getEntityById(Long id) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        Album result = em.createQuery("from Album where albumId = :id", Album.class).
+        Album result = em.createQuery("from Album where id = :id", Album.class).
                 setParameter("id", id).
                 getSingleResult();
         em.getTransaction().commit();
@@ -43,14 +42,14 @@ public class AlbumController extends AbstractController<Album, Long> {
     public boolean deleteById(Long id) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        int res = em.createQuery("DELETE FROM Track where album.albumId=:id").
+        int res = em.createQuery("DELETE FROM Track where album.id=:id").
                 setParameter("id", id).
                 executeUpdate();
         if (res > 0) {
             em.getTransaction().commit();
             em.getTransaction().begin();
         }
-        res = em.createQuery("DELETE Album WHERE albumId=:id").
+        res = em.createQuery("DELETE Album WHERE id=:id").
                 setParameter("id", id).executeUpdate();
         em.getTransaction().commit();
         em.close();

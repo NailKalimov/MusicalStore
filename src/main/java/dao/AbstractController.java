@@ -1,16 +1,10 @@
 package dao;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.List;
 
 public abstract class AbstractController<E, K> {
-    public static String PERSISTENCE_UNIT_NAME = "entityManager";
-    final EntityManagerFactory entityManagerFactory;
-
-    public AbstractController() {
-        this.entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    }
+    final EntityManagerFactory entityManagerFactory = EntityManagerFactorySingleton.getEntityManagerFactorySingleton().getEntityManagerFactory();
 
     public abstract List<E> getAll();
 
@@ -26,7 +20,4 @@ public abstract class AbstractController<E, K> {
         return entityManagerFactory;
     }
 
-    public void closeEntityManagerFactory() {
-        entityManagerFactory.close();
-    }
 }

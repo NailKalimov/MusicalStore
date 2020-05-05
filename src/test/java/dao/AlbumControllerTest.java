@@ -4,16 +4,12 @@ import entity.Album;
 import entity.Artist;
 import entity.Genre;
 import entity.Track;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.Duration;
-import java.time.Year;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -29,19 +25,19 @@ class AlbumControllerTest {
 
         Album album = new Album();
         album.setAlbumName("Звезда по имени Солнце");
-        album.setReleaseDate(Year.of(1989));
+        album.setReleaseDate("1989");
 
         Album album1 = new Album();
         album1.setAlbumName("Гранатовый альбом");
-        album1.setReleaseDate(Year.of(1998));
+        album1.setReleaseDate("1998");
 
         Album album2 = new Album();
         album2.setAlbumName("Новый альбом");
-        album2.setReleaseDate(Year.of(2012));
+        album2.setReleaseDate("2012");
 
         Album album3 = new Album();
         album3.setAlbumName("Hajime pt.3");
-        album3.setReleaseDate(Year.of(2013));
+        album3.setReleaseDate("2013");
 
         Artist kino = new Artist();
         kino.setArtistName("группа Кино");
@@ -107,7 +103,7 @@ class AlbumControllerTest {
         track4.setPlayTime(Duration.parse("PT4M27S"));
         track4.setGenre(rRap);
 
-        entityManagerFactory = Persistence.createEntityManagerFactory("entityManager");
+        entityManagerFactory = Persistence.createEntityManagerFactory(EntityManagerFactorySingleton.FILE_NAME);
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         em.persist(track);
@@ -117,6 +113,7 @@ class AlbumControllerTest {
         em.persist(track4);
         em.getTransaction().commit();
         em.close();
+        entityManagerFactory.close();
     }
 
     @Test
@@ -127,8 +124,9 @@ class AlbumControllerTest {
     @Test
     public void testUpdateAlbum() {
         Album testAlbum = new Album();
+        testAlbum.setId(3L);
         testAlbum.setAlbumName("Новый альбом");
-        testAlbum.setReleaseDate(Year.of(2020));
+        testAlbum.setReleaseDate("2020");
         testAlbum.setTrackList(Collections.singletonList(new Track()));
         albumController.update(testAlbum);
     }
@@ -141,7 +139,7 @@ class AlbumControllerTest {
     @Test
     public void testCreate() {
         Album newAlbum = new Album();
-        newAlbum.setReleaseDate(Year.of(1234));
+        newAlbum.setReleaseDate("1234");
         newAlbum.setAlbumName("New_Album");
         albumController.create(newAlbum);
     }
@@ -150,5 +148,4 @@ class AlbumControllerTest {
     public void testDeleteById() {
         assertTrue(albumController.deleteById(2L));
     }
-
 }

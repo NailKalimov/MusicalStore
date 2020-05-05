@@ -29,7 +29,7 @@ public class TrackController extends AbstractController<Track, Long> {
     public Track getEntityById(Long id) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        Track result = em.createQuery("from Track where trackId = :name", Track.class).
+        Track result = em.createQuery("from Track where id = :name", Track.class).
                 setParameter("name", id).
                 getSingleResult();
         em.getTransaction().commit();
@@ -41,7 +41,7 @@ public class TrackController extends AbstractController<Track, Long> {
     public boolean deleteById(Long id) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        int res = em.createQuery("DELETE Track WHERE trackId=:id").
+        int res = em.createQuery("DELETE Track WHERE id=:id").
                 setParameter("id", id).executeUpdate();
         em.getTransaction().commit();
         em.close();

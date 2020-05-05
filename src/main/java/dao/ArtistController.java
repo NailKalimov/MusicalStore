@@ -1,6 +1,5 @@
 package dao;
 
-import entity.Album;
 import entity.Artist;
 
 import javax.persistence.EntityManager;
@@ -22,11 +21,6 @@ public class ArtistController extends AbstractController<Artist, Long> {
     public void update(Artist entity) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-//        Genre obj = em.createQuery("from Genre as g where g.id = :name", Genre.class).
-//                setParameter("name", entity.getId()).
-//                getSingleResult();
-//        obj.setGenreName(entity.getGenreName());
-//        obj.setTracks(entity.getTracks());
         em.merge(entity);
         em.getTransaction().commit();
         em.close();
@@ -36,7 +30,7 @@ public class ArtistController extends AbstractController<Artist, Long> {
     public Artist getEntityById(Long id) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        Artist result = em.createQuery("from Artist as g where g.artistId = :id", Artist.class).
+        Artist result = em.createQuery("from Artist as g where g.id = :id", Artist.class).
                 setParameter("id", id).
                 getSingleResult();
         em.getTransaction().commit();
@@ -48,7 +42,7 @@ public class ArtistController extends AbstractController<Artist, Long> {
     public boolean deleteById(Long id) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        int res = em.createQuery("DELETE Artist WHERE artistId=:id").
+        int res = em.createQuery("DELETE Artist WHERE id=:id").
                 setParameter("id", id).executeUpdate();
         em.getTransaction().commit();
         em.close();

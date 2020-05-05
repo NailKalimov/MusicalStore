@@ -4,8 +4,8 @@ import entity.Album;
 import entity.Artist;
 import entity.Genre;
 import entity.Track;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -13,7 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.Duration;
-import java.time.Year;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -29,19 +28,19 @@ class GenreControllerTest {
 
         Album album = new Album();
         album.setAlbumName("Звезда по имени Солнце");
-        album.setReleaseDate(Year.of(1989));
+        album.setReleaseDate("1989");
 
         Album album1 = new Album();
         album1.setAlbumName("Гранатовый альбом");
-        album1.setReleaseDate(Year.of(1998));
+        album1.setReleaseDate("1998");
 
         Album album2 = new Album();
         album2.setAlbumName("Новый альбом");
-        album2.setReleaseDate(Year.of(2012));
+        album2.setReleaseDate("2012");
 
         Album album3 = new Album();
         album3.setAlbumName("Hajime pt.3");
-        album3.setReleaseDate(Year.of(2013));
+        album3.setReleaseDate("2013");
 
         Artist kino = new Artist();
         kino.setArtistName("группа Кино");
@@ -107,7 +106,7 @@ class GenreControllerTest {
         track4.setPlayTime(Duration.parse("PT4M27S"));
         track4.setGenre(rRap);
 
-        entityManagerFactory = Persistence.createEntityManagerFactory("entityManager");
+        entityManagerFactory = Persistence.createEntityManagerFactory(EntityManagerFactorySingleton.FILE_NAME);
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         em.persist(track);
@@ -117,6 +116,7 @@ class GenreControllerTest {
         em.persist(track4);
         em.getTransaction().commit();
         em.close();
+        entityManagerFactory.close();
     }
 
     @Test
@@ -126,7 +126,7 @@ class GenreControllerTest {
 
     @Test
     public void testUpdateGenre() {
-        Genre genreForUpdate = new Genre();
+        Genre genreForUpdate = genreController.getEntityById(1L);
         genreForUpdate.setGenreName("ChangedGenreName");
         genreController.update(genreForUpdate);
     }
@@ -147,5 +147,4 @@ class GenreControllerTest {
     public void testDeleteById() {
         assertTrue(genreController.deleteById(2L));
     }
-
 }
