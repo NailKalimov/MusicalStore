@@ -6,7 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Duration;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @ToString
@@ -24,12 +24,12 @@ public class Track {
 
     @Getter
     @Setter
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "TRACKS_AND_ARTISTS",
             joinColumns = @JoinColumn(name = "TRACK"),
             inverseJoinColumns = @JoinColumn(name = "ARTIST")
     )
-    private Collection<Artist> artists;
+    private List<Artist> artists;
 
     @Getter
     @Setter
@@ -37,14 +37,13 @@ public class Track {
 
     @Getter
     @Setter
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "album")
     private Album album;
 
     @Getter
     @Setter
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "genre")
     private Genre genre;
-
 }

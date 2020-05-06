@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Genre {
@@ -21,8 +21,8 @@ public class Genre {
 
     @Getter
     @Setter
-    @OneToMany(mappedBy = "genre", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<Track> tracks;
+    @OneToMany(mappedBy = "genre", fetch = FetchType.EAGER)
+    private List<Track> tracks;
 
     @Override
     public String toString() {

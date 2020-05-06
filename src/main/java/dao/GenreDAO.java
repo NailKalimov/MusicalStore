@@ -4,44 +4,38 @@ import entity.Genre;
 import entity.Track;
 
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
 import java.util.List;
 
-public class GenreController extends AbstractController<Genre, Long> {
-
+public class GenreDAO extends AbstractDAO<Genre, Long> {
+    EntityManager em = entityManagerFactory.createEntityManager();
     @Override
     public List<Genre> getAll() {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        List<Genre> result = em.createQuery("from Genre", Genre.class).getResultList();
-        em.getTransaction().commit();
-        em.close();
-        return result;
+        return em.createQuery("from Genre", Genre.class).getResultList();
     }
 
     @Override
     public void update(Genre entity) {
-        EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         em.merge(entity);
-        em.getTransaction().commit();
-        em.close();
+        try {
+            em.getTransaction().commit();
+        } catch (RollbackException r){
+            em.getTransaction().rollback();
+            r.printStackTrace();
+        }
     }
 
     @Override
     public Genre getEntityById(Long id) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
         Genre result = em.createQuery("from Genre as g where g.genreId = :name", Genre.class).
                 setParameter("name", id).
                 getSingleResult();
-        em.getTransaction().commit();
-        em.close();
         return result;
     }
 
     @Override
     public boolean deleteById(Long id) {
-        EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         List<Track> resultList = em.createQuery("from Track where genre.genreId=:id", Track.class).
                 setParameter("id", id).
@@ -52,23 +46,35 @@ public class GenreController extends AbstractController<Genre, Long> {
                 tr.setGenre(null);
                 em.merge(tr);
             }
-            em.getTransaction().commit();
+            try {
+                em.getTransaction().commit();
+            } catch (RollbackException r){
+                em.getTransaction().rollback();
+                r.printStackTrace();
+            }
             em.getTransaction().begin();
         }
         int res = em.createQuery("DELETE Genre WHERE genreId=:id").
                 setParameter("id", id).executeUpdate();
-        em.getTransaction().commit();
-        em.close();
+        try {
+            em.getTransaction().commit();
+        } catch (RollbackException r){
+            em.getTransaction().rollback();
+            r.printStackTrace();
+        }
         return res > 0;
     }
 
     @Override
     public void create(Genre entity) {
-        EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         em.persist(entity);
-        em.getTransaction().commit();
-        em.close();
+        try {
+            em.getTransaction().commit();
+        } catch (RollbackException r){
+            em.getTransaction().rollback();
+            r.printStackTrace();
+        }
     }
 
 }

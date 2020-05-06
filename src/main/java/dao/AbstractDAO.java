@@ -4,11 +4,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 
-public abstract class AbstractController<E, K> {
+public abstract class AbstractDAO<E, K> {
     public static String PERSISTENCE_UNIT_NAME = "entityManager";
     final EntityManagerFactory entityManagerFactory;
 
-    public AbstractController() {
+    public AbstractDAO() {
         this.entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     }
 

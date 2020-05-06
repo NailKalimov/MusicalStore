@@ -5,7 +5,6 @@ import entity.Artist;
 import entity.Genre;
 import entity.Track;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -15,13 +14,14 @@ import javax.persistence.Persistence;
 import java.time.Duration;
 import java.time.Year;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TrackControllerTest {
-    TrackController trackController = new TrackController();
+class GenreDAOTest {
+    GenreDAO genreController = new GenreDAO();
 
     @BeforeAll
     public void setUp() {
@@ -45,23 +45,23 @@ class TrackControllerTest {
 
         Artist kino = new Artist();
         kino.setArtistName("группа Кино");
-        kino.setAlbums(Collections.singleton(album));
+        kino.setAlbums(Collections.singletonList(album));
 
         Artist splin = new Artist();
         splin.setArtistName("группа Сплин");
-        splin.setAlbums(Collections.singleton(album1));
+        splin.setAlbums(Collections.singletonList(album1));
 
         Artist noize = new Artist();
         noize.setArtistName("NoizeMC");
-        noize.setAlbums(Collections.singleton(album2));
+        noize.setAlbums(Collections.singletonList(album2));
 
         Artist myiagi = new Artist();
         myiagi.setArtistName("Miyagi");
-        myiagi.setAlbums(Collections.singleton(album3));
+        myiagi.setAlbums(Collections.singletonList(album3));
 
         Artist endshp = new Artist();
         endshp.setArtistName("Эндшпиль");
-        endshp.setAlbums(Collections.singleton(album3));
+        endshp.setAlbums(Collections.singletonList(album3));
 
         Artist tumani = new Artist();
         tumani.setArtistName("TumaniYO");
@@ -75,21 +75,21 @@ class TrackControllerTest {
         Track track = new Track();
         track.setTrackName("Пачка сигарет");
         track.setAlbum(album);
-        track.setArtists(Collections.singleton(kino));
+        track.setArtists(Collections.singletonList(kino));
         track.setPlayTime(Duration.parse("PT4M28S"));
         track.setGenre(rRock);
 
         Track track1 = new Track();
         track1.setTrackName("Выхода нет");
         track1.setAlbum(album1);
-        track1.setArtists(Collections.singleton(splin));
+        track1.setArtists(Collections.singletonList(splin));
         track1.setPlayTime(Duration.parse("PT3M47S"));
         track1.setGenre(rRock);
 
         Track track2 = new Track();
         track2.setTrackName("Вселенная бесконечна?");
         track2.setAlbum(album2);
-        track2.setArtists(Collections.singleton(noize));
+        track2.setArtists(Collections.singletonList(noize));
         track2.setPlayTime(Duration.parse("PT4M20S"));
         track2.setGenre(rRap);
 
@@ -120,32 +120,32 @@ class TrackControllerTest {
     }
 
     @Test
-    void testGetAll() {
-        trackController.getAll().forEach(System.out::println);
+    public void testGetAllGenre() {
+        genreController.getAll().forEach(System.out::println);
     }
 
     @Test
-    void testUpdate() {
-        Track updatedTrack = new Track();
-        updatedTrack.setTrackName("Колизей");
-        updatedTrack.setPlayTime(Duration.ofSeconds(1));
-        trackController.update(updatedTrack);
+    public void testUpdateGenre() {
+        Genre genreForUpdate = new Genre();
+        genreForUpdate.setGenreName("ChangedGenreName");
+        genreController.update(genreForUpdate);
     }
 
     @Test
-    void testGetEntityById() {
-        System.out.println(trackController.getEntityById(1L));
+    public void testGetEntityById() {
+        System.out.println("id=10, " + genreController.getEntityById(1L));
     }
 
     @Test
-    void testDeleteById() {
-        assertTrue(trackController.deleteById(2L));
+    public void testCreate() {
+        Genre testGenre = new Genre();
+        testGenre.setGenreName("Test_Genre");
+        genreController.create(testGenre);
     }
 
     @Test
-    void testCreate() {
-        Track createdTrack = new Track();
-        createdTrack.setTrackName("New_Track");
-        trackController.update(createdTrack);
+    public void testDeleteById() {
+        assertTrue(genreController.deleteById(2L));
     }
+
 }

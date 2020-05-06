@@ -5,7 +5,6 @@ import entity.Artist;
 import entity.Genre;
 import entity.Track;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -20,8 +19,8 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ArtistControllerTest {
-    ArtistController artistController = new ArtistController();
+class ArtistDAOTest {
+    ArtistDAO artistController = new ArtistDAO();
 
     @BeforeAll
     public void setUp() {
@@ -45,23 +44,23 @@ class ArtistControllerTest {
 
         Artist kino = new Artist();
         kino.setArtistName("группа Кино");
-        kino.setAlbums(Collections.singleton(album));
+        kino.setAlbums(Collections.singletonList(album));
 
         Artist splin = new Artist();
         splin.setArtistName("группа Сплин");
-        splin.setAlbums(Collections.singleton(album1));
+        splin.setAlbums(Collections.singletonList(album1));
 
         Artist noize = new Artist();
         noize.setArtistName("NoizeMC");
-        noize.setAlbums(Collections.singleton(album2));
+        noize.setAlbums(Collections.singletonList(album2));
 
         Artist myiagi = new Artist();
         myiagi.setArtistName("Miyagi");
-        myiagi.setAlbums(Collections.singleton(album3));
+        myiagi.setAlbums(Collections.singletonList(album3));
 
         Artist endshp = new Artist();
         endshp.setArtistName("Эндшпиль");
-        endshp.setAlbums(Collections.singleton(album3));
+        endshp.setAlbums(Collections.singletonList(album3));
 
         Artist tumani = new Artist();
         tumani.setArtistName("TumaniYO");
@@ -75,21 +74,21 @@ class ArtistControllerTest {
         Track track = new Track();
         track.setTrackName("Пачка сигарет");
         track.setAlbum(album);
-        track.setArtists(Collections.singleton(kino));
+        track.setArtists(Collections.singletonList(kino));
         track.setPlayTime(Duration.parse("PT4M28S"));
         track.setGenre(rRock);
 
         Track track1 = new Track();
         track1.setTrackName("Выхода нет");
         track1.setAlbum(album1);
-        track1.setArtists(Collections.singleton(splin));
+        track1.setArtists(Collections.singletonList(splin));
         track1.setPlayTime(Duration.parse("PT3M47S"));
         track1.setGenre(rRock);
 
         Track track2 = new Track();
         track2.setTrackName("Вселенная бесконечна?");
         track2.setAlbum(album2);
-        track2.setArtists(Collections.singleton(noize));
+        track2.setArtists(Collections.singletonList(noize));
         track2.setPlayTime(Duration.parse("PT4M20S"));
         track2.setGenre(rRap);
 

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Year;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Album {
@@ -22,8 +22,8 @@ public class Album {
 
     @Getter
     @Setter
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "albums")
-    private Collection<Artist> artists;
+    @ManyToMany(mappedBy = "albums", fetch = FetchType.EAGER)
+    private List<Artist> artists;
 
     @Getter
     @Setter
@@ -31,13 +31,13 @@ public class Album {
 
     @Getter
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "album", fetch = FetchType.EAGER)
-    private Collection<Track> trackList;
+    @OneToMany(mappedBy = "album", fetch = FetchType.EAGER)
+    private List<Track> trackList;
 
     @Override
     public String toString() {
         return "Album(" + albumName +
-                ", Artists" + artists +
-                ", Release Date: " + releaseDate.toString() + ")";
+                ", Artists: " + artists +
+                ", Release Date: " + releaseDate + ")";
     }
 }

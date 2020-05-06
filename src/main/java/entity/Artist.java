@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Artist {
@@ -21,17 +21,17 @@ public class Artist {
 
     @Getter
     @Setter
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ARTISTS_AND_ALBUMS",
             joinColumns = @JoinColumn(name = "ARTIST"),
             inverseJoinColumns = @JoinColumn(name = "ALBUM")
     )
-    private Collection<Album> albums;
+    private List<Album> albums;
 
     @Getter
     @Setter
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "artists")
-    private Collection<Track> tracks;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "artists")
+    private List<Track> tracks;
 
     @Override
     public String toString() {

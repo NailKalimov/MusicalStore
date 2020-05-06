@@ -2,30 +2,26 @@ import entity.Album;
 import entity.Artist;
 import entity.Genre;
 import entity.Track;
-import dao.AlbumController;
-import dao.ArtistController;
-import dao.GenreController;
-import dao.TrackController;
+import dao.AlbumDAO;
+import dao.ArtistDAO;
+import dao.GenreDAO;
+import dao.TrackDAO;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.time.Duration;
 import java.time.Year;
 import java.util.Arrays;
 import java.util.Collections;
 
 public class Main {
+    static AlbumDAO albumController = new AlbumDAO();
+    static ArtistDAO artistController = new ArtistDAO();
+    static GenreDAO genreController = new GenreDAO();
+    static TrackDAO trackController = new TrackDAO();
     public static void main(String[] args) {
-        AlbumController albumController = new AlbumController();
-        ArtistController artistController = new ArtistController();
-        GenreController genreController = new GenreController();
-        TrackController trackController = new TrackController();
-
         setUpDB();
         //Получим из БД данные о треке по его id
-        Track track = trackController.getEntityById(1L);
-        System.out.println(track);
+        System.out.println(trackController.getEntityById(1L));
 
         //Удалим исполнителя по id
         artistController.deleteById(2L);
@@ -39,16 +35,14 @@ public class Main {
         Album albumForUpdate = new Album();
         albumForUpdate.setAlbumId(1L);
         albumForUpdate.setAlbumName("Звезда по имени Солнце(updated)");
-        albumForUpdate.setTrackList(Collections.singletonList(new Track()));
         albumController.update(albumForUpdate);
-
     }
 
     /**
      * Заполнение базы данными
      */
     public static void setUpDB() {
-        EntityManagerFactory entityManagerFactory; //= Persistence.createEntityManagerFactory("entityManager");
+        EntityManagerFactory entityManagerFactory;
         Album album = new Album();
         album.setAlbumName("Звезда по имени Солнце");
         album.setReleaseDate(Year.of(1989));
@@ -67,23 +61,23 @@ public class Main {
 
         Artist kino = new Artist();
         kino.setArtistName("группа Кино");
-        kino.setAlbums(Collections.singleton(album));
+        kino.setAlbums(Collections.singletonList(album));
 
         Artist splin = new Artist();
         splin.setArtistName("группа Сплин");
-        splin.setAlbums(Collections.singleton(album1));
+        splin.setAlbums(Collections.singletonList(album1));
 
         Artist noize = new Artist();
         noize.setArtistName("NoizeMC");
-        noize.setAlbums(Collections.singleton(album2));
+        noize.setAlbums(Collections.singletonList(album2));
 
         Artist myiagi = new Artist();
         myiagi.setArtistName("Miyagi");
-        myiagi.setAlbums(Collections.singleton(album3));
+        myiagi.setAlbums(Collections.singletonList(album3));
 
         Artist endshp = new Artist();
         endshp.setArtistName("Эндшпиль");
-        endshp.setAlbums(Collections.singleton(album3));
+        endshp.setAlbums(Collections.singletonList(album3));
 
         Artist tumani = new Artist();
         tumani.setArtistName("TumaniYO");
@@ -97,21 +91,21 @@ public class Main {
         Track track = new Track();
         track.setTrackName("Пачка сигарет");
         track.setAlbum(album);
-        track.setArtists(Collections.singleton(kino));
+        track.setArtists(Collections.singletonList(kino));
         track.setPlayTime(Duration.parse("PT4M28S"));
         track.setGenre(rRock);
 
         Track track1 = new Track();
         track1.setTrackName("Выхода нет");
         track1.setAlbum(album1);
-        track1.setArtists(Collections.singleton(splin));
+        track1.setArtists(Collections.singletonList(splin));
         track1.setPlayTime(Duration.parse("PT3M47S"));
         track1.setGenre(rRock);
 
         Track track2 = new Track();
         track2.setTrackName("Вселенная бесконечна?");
         track2.setAlbum(album2);
-        track2.setArtists(Collections.singleton(noize));
+        track2.setArtists(Collections.singletonList(noize));
         track2.setPlayTime(Duration.parse("PT4M20S"));
         track2.setGenre(rRap);
 
@@ -129,15 +123,10 @@ public class Main {
         track4.setPlayTime(Duration.parse("PT4M27S"));
         track4.setGenre(rRap);
 
-        entityManagerFactory = Persistence.createEntityManagerFactory("entityManager");
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(track);
-        em.persist(track1);
-        em.persist(track2);
-        em.persist(track3);
-        em.persist(track4);
-        em.getTransaction().commit();
-        em.close();
+        trackController.create(track);
+        trackController.create(track1);
+        trackController.create(track2);
+        trackController.create(track3);
+        trackController.create(track4);
     }
 }
