@@ -7,7 +7,11 @@ import javax.persistence.RollbackException;
 import java.util.List;
 
 public class ArtistDAO extends AbstractDAO<Artist, Long> {
-    EntityManager em = entityManagerFactory.createEntityManager();
+
+    public ArtistDAO(EntityManager em) {
+        super(em);
+    }
+
     @Override
     public List<Artist> getAll() {
         return em.createQuery("from Artist", Artist.class).getResultList();

@@ -3,14 +3,19 @@ package dao;
 import entity.Album;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.RollbackException;
 import java.util.List;
 
 public class AlbumDAO extends AbstractDAO<Album, Long> {
-    EntityManager em = entityManagerFactory.createEntityManager();
+
+    public AlbumDAO(EntityManager em) {
+        super(em);
+    }
+
     @Override
     public List<Album> getAll() {
-        List<Album> result = em.createQuery("from Album", Album.class).getResultList();
+        List<Album> result = em.createQuery("FROM Album", Album.class).getResultList();
         return result;
     }
 

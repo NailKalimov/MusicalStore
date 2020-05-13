@@ -8,7 +8,11 @@ import javax.persistence.RollbackException;
 import java.util.List;
 
 public class GenreDAO extends AbstractDAO<Genre, Long> {
-    EntityManager em = entityManagerFactory.createEntityManager();
+
+    public GenreDAO(EntityManager em) {
+        super(em);
+    }
+
     @Override
     public List<Genre> getAll() {
         return em.createQuery("from Genre", Genre.class).getResultList();

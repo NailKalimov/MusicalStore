@@ -7,7 +7,11 @@ import javax.persistence.RollbackException;
 import java.util.List;
 
 public class TrackDAO extends AbstractDAO<Track, Long> {
-    EntityManager em = entityManagerFactory.createEntityManager();
+
+    public TrackDAO(EntityManager em) {
+        super(em);
+    }
+
     @Override
     public List<Track> getAll() {
         return em.createQuery("from Track", Track.class).getResultList();
