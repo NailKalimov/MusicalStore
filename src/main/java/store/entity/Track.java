@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.Duration;
 import java.util.List;
 
 @Entity
@@ -37,7 +36,7 @@ public class Track {
     @JsonIgnore
     @Getter
     @Setter
-    private Duration playTime;
+    private String playTime;
 
     @Getter
     @Setter

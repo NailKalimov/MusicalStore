@@ -8,24 +8,24 @@ import java.util.List;
 
 @RestController
 public class ArtistController {
-    private ArtistDAO artistDAO;
+    private final ArtistDAO artistDAO;
 
     public ArtistController(ArtistDAO artistDAO) {
         this.artistDAO = artistDAO;
     }
 
     @GetMapping(path = "/artists/{id}")
-    public Artist getById(@PathVariable(name = "id")Long id){
+    public Artist getById(@PathVariable(name = "id") Long id) {
         return artistDAO.getEntityById(id);
     }
 
     @GetMapping(path = "/artists/all")
-    public List<Artist> getAll(){
+    public List<Artist> getAll() {
         return artistDAO.getAll();
     }
 
     @GetMapping(path = "/artists/delete/{id}")
-    public boolean deleteById(@PathVariable(name = "id")Long id){
+    public boolean deleteById(@PathVariable(name = "id") Long id) {
         return artistDAO.deleteById(id);
     }
 

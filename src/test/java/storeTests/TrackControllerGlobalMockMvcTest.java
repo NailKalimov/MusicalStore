@@ -24,9 +24,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import store.controller.ArtistController;
-import store.dao.ArtistDAO;
-import store.dao.ArtistDAOImpl;
+import store.controller.TrackController;
+import store.dao.TrackDAO;
+import store.dao.TrackDAOImpl;
 import store.entity.Album;
 import store.entity.Artist;
 import store.entity.Track;
@@ -44,13 +44,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
         Config.class,
-        ArtistController.class,
+        TrackController.class
 })
 @WebAppConfiguration
 @EnableWebMvc
 @TestPropertySource("classpath:application.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ArtistsControllerGlobalMockMvcTest {
+public class TrackControllerGlobalMockMvcTest {
     private MockMvc mockMvc;
     @Autowired
     EntityManagerFactory entityManagerFactory;
@@ -59,7 +59,7 @@ public class ArtistsControllerGlobalMockMvcTest {
     @Autowired
     private WebApplicationContext wac;
     @Autowired
-    ArtistDAO artistDAO;
+    TrackDAO trackDAO;
 
     @BeforeAll
     public void setUp() {
@@ -70,17 +70,18 @@ public class ArtistsControllerGlobalMockMvcTest {
         Artist kino = new Artist();
         kino.setArtistName("группа Кино");
         kino.setAlbums(Collections.singletonList(album));
-        Artist splin = new Artist();
-        splin.setArtistName("группа Сплин");
         Track track = new Track();
         track.setTrackName("Пачка сигарет");
         track.setAlbum(album);
         track.setArtists(Collections.singletonList(kino));
         track.setPlayTime("4m28s");
+        Track track1 = new Track();
+        track1.setTrackName("Выхода нет");
+        track1.setPlayTime("3m47s");
         em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         em.persist(track);
-        em.persist(splin);
+        em.persist(track1);
         em.getTransaction().commit();
     }
 
@@ -90,19 +91,19 @@ public class ArtistsControllerGlobalMockMvcTest {
     }
 
     @Test
-    public void testRequestFor_GetAllEntities() throws Exception {
+    public void testRequestFor_GetAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/artists/all")
+                .get("/tracks/all")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testRequestFor_GetEntityById_AndComparisonId() throws Exception {
+    public void testRequestFor_GetById() throws Exception {
         Long id = 1L;
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/artists/{id}", id)
+                .get("/tracks/{id}", 1L)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -110,44 +111,42 @@ public class ArtistsControllerGlobalMockMvcTest {
     }
 
     @Test
-    public void testRequestFor_DeleteEntityById_AndExpectResponse() throws Exception {
+    public void testRequestFor_DeleteById_AndExpectResponse() throws Exception {
         Long id = 2L;
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/artists/delete/{id}", id))
+                .get("/tracks/delete/{id}", id)
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(true));
     }
 
     @Test
-    public void testRequestFor_UpdateArtist() throws Exception {
-        Long id = 1L;
-        ObjectMapper mapper = new ObjectMapper();
-        Artist artist = artistDAO.getEntityById(id);
-        artist.setArtistName("Test Update Method in Controller");
-        String json = mapper.writeValueAsString(artist);
+    public void testRequestFor_UpdateTrack() throws Exception {
+        Track track = trackDAO.getEntityById(1L);
+        track.setTrackName("Test Update Method in Controller");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(track);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/artists/update")
+                .post("/tracks/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andDo(print())
-                .andExpect(status().isOk());
+                .andDo(print()).andExpect(status().isOk());
     }
 
     @Test
-    public void testRequstFor_AddArtist() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        Artist artist = new Artist();
-        artist.setArtistName("Test Create method in Controller");
-        String json = mapper.writeValueAsString(artist);
+    public void testRequestFor_AddTrack() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Track track = new Track();
+        track.setTrackName("Test Add Method in Controller");
+        track.setPlayTime("some times");
+        String json = objectMapper.writeValueAsString(track);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/artists/add")
+                .post("/tracks/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andDo(print())
-                .andExpect(status().isOk());
+                .andDo(print()).andExpect(status().isOk());
     }
-
 
     @Configuration
     static class Config {
@@ -160,8 +159,8 @@ public class ArtistsControllerGlobalMockMvcTest {
         }
 
         @Bean
-        public ArtistDAO artistDAO(EntityManager em) {
-            return new ArtistDAOImpl(em);
+        public TrackDAO trackDAO(EntityManager em) {
+            return new TrackDAOImpl(em);
         }
 
 

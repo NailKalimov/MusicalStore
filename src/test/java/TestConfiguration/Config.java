@@ -1,26 +1,24 @@
-package store.config;
+package TestConfiguration;
 
-import store.dao.*;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import store.dao.*;
+import store.service.AlbumService;
+import store.service.AlbumServiceImpl;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
-public class BaseConfig {
-    private final Environment env;
-
-    public BaseConfig(Environment env) {
-        this.env = env;
-    }
+public class Config {
+    @Autowired
+    private Environment env;
 
     @Bean
     public EntityManager em() {
@@ -28,8 +26,13 @@ public class BaseConfig {
     }
 
     @Bean
-    public AlbumDAO albumDAO(EntityManager em) {
+    AlbumDAO albumDAO(EntityManager em) {
         return new AlbumDAOImpl(em);
+    }
+
+    @Bean
+    AlbumService albumService(AlbumDAO albumDAO) {
+        return new AlbumServiceImpl(albumDAO);
     }
 
     @Bean
@@ -40,13 +43,6 @@ public class BaseConfig {
     @Bean
     public TrackDAO trackDAO(EntityManager em) {
         return new TrackDAOImpl(em);
-    }
-
-    @Bean
-    public JpaTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory emf) {
-        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-        jpaTransactionManager.setEntityManagerFactory(emf);
-        return jpaTransactionManager;
     }
 
     @Bean("entityManagerFactory")
@@ -69,5 +65,4 @@ public class BaseConfig {
         props.put(org.hibernate.cfg.Environment.PASS, env.getProperty("spring.datasource.password"));
         return props;
     }
-
 }

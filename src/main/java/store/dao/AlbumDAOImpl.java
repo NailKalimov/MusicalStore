@@ -25,7 +25,7 @@ public class AlbumDAOImpl implements AlbumDAO {
         em.merge(entity);
         try {
             em.getTransaction().commit();
-        } catch (RollbackException rollbackException){
+        } catch (RollbackException rollbackException) {
             em.getTransaction().rollback();
             rollbackException.printStackTrace();
         }
@@ -48,7 +48,7 @@ public class AlbumDAOImpl implements AlbumDAO {
                 setParameter("id", id).executeUpdate();
         try {
             em.getTransaction().commit();
-        } catch (RollbackException rollbackException){
+        } catch (RollbackException rollbackException) {
             em.getTransaction().rollback();
             rollbackException.printStackTrace();
         }
@@ -61,13 +61,13 @@ public class AlbumDAOImpl implements AlbumDAO {
         em.persist(entity);
         try {
             em.getTransaction().commit();
-        } catch (RollbackException r){
+        } catch (RollbackException r) {
             em.getTransaction().rollback();
             r.printStackTrace();
         }
     }
 
-    public void closeEntityManager(){
+    public void closeEntityManager() {
         em.close();
     }
 

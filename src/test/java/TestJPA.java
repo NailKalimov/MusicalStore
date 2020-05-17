@@ -1,30 +1,35 @@
-package store.component;
-
+import TestConfiguration.Config;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import store.entity.Album;
 import store.entity.Artist;
 import store.entity.Track;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.time.Duration;
-import java.time.Year;
 import java.util.Arrays;
 import java.util.Collections;
 
-@Component
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {
+        Config.class
+})
+@TestPropertySource("classpath:application.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestJPA {
-    private final EntityManagerFactory entityManagerFactory;
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
-    public TestJPA(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
-    }
-
-    @PostConstruct
-    @Transactional
+    @Test
     void initIt() {
+        EntityManager em = entityManagerFactory.createEntityManager();
+
         Album album = new Album();
         album.setAlbumName("Звезда по имени Солнце");
         album.setReleaseDate(1989);
@@ -68,33 +73,32 @@ public class TestJPA {
         track.setTrackName("Пачка сигарет");
         track.setAlbum(album);
         track.setArtists(Collections.singletonList(kino));
-        track.setPlayTime(Duration.parse("PT4M28S"));
+        track.setPlayTime("4m28s");
 
         Track track1 = new Track();
         track1.setTrackName("Выхода нет");
         track1.setAlbum(album1);
         track1.setArtists(Collections.singletonList(splin));
-        track1.setPlayTime(Duration.parse("PT3M47S"));
+        track1.setPlayTime("3m47s");
 
         Track track2 = new Track();
         track2.setTrackName("Вселенная бесконечна?");
         track2.setAlbum(album2);
         track2.setArtists(Collections.singletonList(noize));
-        track2.setPlayTime(Duration.parse("PT4M20S"));
+        track2.setPlayTime("4m20s");
 
         Track track3 = new Track();
         track3.setTrackName("Fuck the money");
         track3.setAlbum(album3);
         track3.setArtists(Arrays.asList(myiagi, endshp, tumani));
-        track3.setPlayTime(Duration.parse("PT4M11S"));
+        track3.setPlayTime("4m11s");
 
         Track track4 = new Track();
         track4.setTrackName("Колизей");
         track4.setAlbum(album3);
         track4.setArtists(Arrays.asList(myiagi, endshp));
-        track4.setPlayTime(Duration.parse("PT4M27S"));
+        track4.setPlayTime("4m27s");
 
-        EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         em.persist(track);
         em.persist(track1);
@@ -104,5 +108,4 @@ public class TestJPA {
         em.getTransaction().commit();
         em.close();
     }
-
 }

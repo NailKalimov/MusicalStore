@@ -26,7 +26,7 @@ public class TrackDAOImpl implements TrackDAO {
         em.merge(entity);
         try {
             em.getTransaction().commit();
-        } catch (RollbackException r){
+        } catch (RollbackException r) {
             em.getTransaction().rollback();
             r.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class TrackDAOImpl implements TrackDAO {
                 setParameter("id", id).executeUpdate();
         try {
             em.getTransaction().commit();
-        } catch (RollbackException r){
+        } catch (RollbackException r) {
             em.getTransaction().rollback();
             r.printStackTrace();
         }
@@ -59,7 +59,7 @@ public class TrackDAOImpl implements TrackDAO {
         em.persist(entity);
         try {
             em.getTransaction().commit();
-        } catch (RollbackException r){
+        } catch (RollbackException r) {
             em.getTransaction().rollback();
             r.printStackTrace();
         }
