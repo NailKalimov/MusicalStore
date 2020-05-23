@@ -1,41 +1,40 @@
 package store.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import store.dao.AlbumDAO;
+import store.repository.AlbumRepo;
 import store.entity.Album;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 public class AlbumController {
-    private final AlbumDAO albumDAO;
-
-    public AlbumController(AlbumDAO albumDAO) {
-        this.albumDAO = albumDAO;
-    }
+    private final AlbumRepo albumRepo;
 
     @GetMapping(path = "/albums/{id}")
-    public Album getAlbumById(@PathVariable(name = "id") Long id) {
-        return albumDAO.getEntityById(id);
+    public Optional<Album> getAlbumById(@PathVariable(name = "id") Long id) {
+        return albumRepo.findById(id);
     }
 
     @GetMapping(path = "/albums/all")
     public List<Album> getAllAlbum() {
-        return albumDAO.getAll();
+        return albumRepo.findAll();
     }
 
     @GetMapping(path = "/albums/delete/{id}")
-    public boolean deleteAlbumById(@PathVariable(name = "id") Long id) {
-        return albumDAO.deleteById(id);
+    public void deleteAlbumById(@PathVariable(name = "id") Long id) {
+        albumRepo.deleteById(id);
     }
 
-    @PostMapping(path = "/albums/update")
-    public void updateAlbum(@RequestBody Album album) {
-        albumDAO.update(album);
-    }
+//    @PostMapping(path = "/albums/update")
+//    public void updateAlbum(@RequestBody Album album) {
+//        albumDAO.update(album);
+//    }
 
     @PostMapping(path = "/albums/add")
     public void addAlbum(@RequestBody Album album) {
-        albumDAO.create(album);
+        albumRepo.save(album);
     }
 }

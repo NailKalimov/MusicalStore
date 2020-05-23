@@ -1,41 +1,40 @@
 package store.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import store.dao.TrackDAO;
+import store.repository.TrackRepo;
 import store.entity.Track;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 public class TrackController {
-    private final TrackDAO trackDAO;
-
-    public TrackController(TrackDAO trackDAO) {
-        this.trackDAO = trackDAO;
-    }
+    private final TrackRepo trackRepo;
 
     @GetMapping(path = "/tracks/{id}")
-    public Track getById(@PathVariable(name = "id") Long id) {
-        return trackDAO.getEntityById(id);
+    public Optional<Track> getById(@PathVariable(name = "id") Long id) {
+        return trackRepo.findById(id);
     }
 
     @GetMapping(path = "/tracks/all")
     public List<Track> getAll() {
-        return trackDAO.getAll();
+        return trackRepo.findAll();
     }
 
     @GetMapping(path = "/tracks/delete/{id}")
-    public boolean deleteById(@PathVariable(name = "id") Long id) {
-        return trackDAO.deleteById(id);
+    public void deleteById(@PathVariable(name = "id") Long id) {
+        trackRepo.deleteById(id);
     }
 
-    @PostMapping(path = "/tracks/update")
-    public void updateTrack(@RequestBody Track track) {
-        trackDAO.update(track);
-    }
+//    @PostMapping(path = "/tracks/update")
+//    public void updateTrack(@RequestBody Track track) {
+//        trackDAO.update(track);
+//    }
 
     @PostMapping(path = "/tracks/add")
     public void addTrack(@RequestBody Track track) {
-        trackDAO.create(track);
+        trackRepo.save(track);
     }
 }

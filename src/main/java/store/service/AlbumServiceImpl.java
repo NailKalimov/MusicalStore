@@ -1,46 +1,19 @@
 package store.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import store.dao.AlbumDAO;
 import store.entity.Album;
+import store.repository.AlbumRepo;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class AlbumServiceImpl implements AlbumService {
-    private final AlbumDAO albumDAO;
+    private final AlbumRepo albumRepo;
 
-    public AlbumServiceImpl(AlbumDAO albumDAO) {
-        this.albumDAO = albumDAO;
-    }
-
-    @Override
-    public void add(Album album) {
-        if (album.getAlbumName().contains("шансон")) {
-            System.out.println("---------Шансону тут не место!--------");
-        } else {
-            albumDAO.create(album);
-        }
-    }
-
-    @Override
-    public void update(Album album) {
-
-    }
-
-    @Override
-    public boolean delete(Long id) {
-        return false;
-    }
-
-    @Override
-    public Album getAll() {
-        return null;
-    }
-
-    @Override
-    public List<Album> getById(Long id) {
-        return null;
+    public List<Album> getAllAlbumsReleaseDateBefore(int year) {
+        return albumRepo.findAll().stream().filter(album -> album.getReleaseDate() < year).collect(Collectors.toList());
     }
 }
