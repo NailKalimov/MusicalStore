@@ -64,7 +64,7 @@ public class BaseConfig {
         props.put(org.hibernate.cfg.Environment.DRIVER, env.getProperty("spring.datasource.driverClassName"));
         props.put(org.hibernate.cfg.Environment.URL, env.getProperty("spring.datasource.url"));
         props.put(org.hibernate.cfg.Environment.SHOW_SQL, "true");
-        props.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "create");
+        props.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, env.getProperty("spring.jpa.hibernate.ddl-auto"));
         props.put(org.hibernate.cfg.Environment.USER, env.getProperty("spring.datasource.username"));
         props.put(org.hibernate.cfg.Environment.PASS, env.getProperty("spring.datasource.password"));
         return props;
