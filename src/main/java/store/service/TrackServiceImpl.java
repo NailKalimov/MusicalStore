@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import store.entity.Album;
 import store.entity.Artist;
 import store.entity.Track;
-import store.repository.TrackRepo;
+import store.repository.TrackRepository;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +16,7 @@ import java.util.Collections;
 @AllArgsConstructor
 public class TrackServiceImpl implements TrackService {
 
-    TrackRepo trackRepo;
+    TrackRepository trackRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
@@ -89,6 +89,6 @@ public class TrackServiceImpl implements TrackService {
         track4.setArtists(Arrays.asList(myiagi, endshp));
         track4.setPlayTime("4m27s");
 
-        trackRepo.saveAll(Arrays.asList(track, track1, track2, track3, track4));
+        trackRepository.saveAll(Arrays.asList(track, track1, track2, track3, track4));
     }
 }

@@ -1,6 +1,7 @@
 package store.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.repository.ArtistRepo;
 import store.entity.Artist;

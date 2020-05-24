@@ -19,7 +19,6 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-
 public class AlbumServiceImplTest {
 
     @TestConfiguration
