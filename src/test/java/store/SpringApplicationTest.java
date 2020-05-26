@@ -30,10 +30,10 @@ public class SpringApplicationTest {
 
 
     // Тут проблема. Если в каком-либо поле сущности содержатся символы русского алфавита,
-    // то в ответном json на их месте приходят крокозябры и ObjectMapper не может этот json десериализовать
+    // то в ответе на их месте приходят крокозябры
     @Test
     void integrationTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/tracks/4")
+        mockMvc.perform(MockMvcRequestBuilders.get("/tracks/all")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

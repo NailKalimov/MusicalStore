@@ -5,6 +5,6 @@ import store.entity.Artist;
 
 import java.util.Optional;
 
-public interface ArtistRepo extends JpaRepository<Artist, Long> {
+public interface ArtistRepository extends JpaRepository<Artist, Long> {
     Optional<Artist> findByArtistName(String name);
 }

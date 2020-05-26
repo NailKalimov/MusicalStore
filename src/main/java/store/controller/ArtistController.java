@@ -1,10 +1,9 @@
 package store.controller;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import store.repository.ArtistRepo;
 import store.entity.Artist;
+import store.service.ArtistService;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,30 +11,30 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 public class ArtistController {
-    private final ArtistRepo artistRepo;
+    private final ArtistService artistService;
 
     @GetMapping(path = "/artists/{id}")
     public Optional<Artist> getById(@PathVariable(name = "id") Long id) {
-        return artistRepo.findById(id);
+        return artistService.getById(id);
     }
 
     @GetMapping(path = "/artists/all")
     public List<Artist> getAll() {
-        return artistRepo.findAll();
+        return artistService.getAll();
     }
 
     @GetMapping(path = "/artists/delete/{id}")
     public void deleteById(@PathVariable(name = "id") Long id) {
-        artistRepo.deleteById(id);
+        artistService.deleteById(id);
+    }
+
+    @PostMapping(path = "/artists/add")
+    public void addArtist(@RequestBody Artist artist) {
+        artistService.save(artist);
     }
 
 //    @PostMapping(path = "/artists/update")
 //    public void updateArtist(@RequestBody Artist artist) {
 //        artistDAO.update(artist);
 //    }
-
-    @PostMapping(path = "/artists/add")
-    public void addArtist(@RequestBody Artist artist) {
-        artistRepo.save(artist);
-    }
 }

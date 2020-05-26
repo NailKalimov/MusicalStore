@@ -11,6 +11,8 @@ import store.repository.TrackRepository;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -19,7 +21,7 @@ public class TrackServiceImpl implements TrackService {
     TrackRepository trackRepository;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void init(){
+    public void init() {
         Album album = new Album();
         album.setAlbumName("Звезда по имени Солнце");
         album.setReleaseDate(1989);
@@ -90,5 +92,25 @@ public class TrackServiceImpl implements TrackService {
         track4.setPlayTime("4m27s");
 
         trackRepository.saveAll(Arrays.asList(track, track1, track2, track3, track4));
+    }
+
+    @Override
+    public Optional<Track> getById(Long id) {
+        return trackRepository.findById(id);
+    }
+
+    @Override
+    public List<Track> getAll() {
+        return trackRepository.findAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        trackRepository.deleteById(id);
+    }
+
+    @Override
+    public void save(Track track) {
+        trackRepository.save(track);
     }
 }

@@ -17,7 +17,7 @@ public class AlbumRepositoryTest {
     private TestEntityManager em;
 
     @Autowired
-    private AlbumRepo albumRepo;
+    private AlbumRepository albumRepository;
 
     @Test
     void findByName() {
@@ -27,7 +27,7 @@ public class AlbumRepositoryTest {
         em.persist(album);
         em.flush();
 
-        Optional<Album> found = albumRepo.findByAlbumName("Звезда по имени Солнце");
+        Optional<Album> found = albumRepository.findByAlbumName("Звезда по имени Солнце");
 
         assertAll(() -> assertTrue(found.isPresent()), () -> assertEquals(album, found.orElse(null)));
     }

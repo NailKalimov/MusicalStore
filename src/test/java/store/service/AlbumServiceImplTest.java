@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import store.entity.Album;
-import store.repository.AlbumRepo;
+import store.repository.AlbumRepository;
 
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
@@ -24,8 +24,8 @@ public class AlbumServiceImplTest {
     @TestConfiguration
     static class Config {
         @Bean
-        public AlbumService albumService(AlbumRepo albumRepo) {
-            return new AlbumServiceImpl(albumRepo);
+        public AlbumService albumService(AlbumRepository albumRepository) {
+            return new AlbumServiceImpl(albumRepository);
         }
     }
 
@@ -33,7 +33,7 @@ public class AlbumServiceImplTest {
     private AlbumService albumService;
 
     @MockBean
-    private AlbumRepo albumRepo;
+    private AlbumRepository albumRepository;
 
     @Test
     void getAll() {
@@ -41,9 +41,9 @@ public class AlbumServiceImplTest {
         album.setAlbumName("Звезда по имени Солнце");
         album.setReleaseDate(1989);
         List<Album> expectedList = Collections.singletonList(album);
-        when(albumRepo.findAll()).thenReturn(expectedList);
+        when(albumRepository.findAll()).thenReturn(expectedList);
 
-        List<Album> actualList = albumService.getAllAlbumsReleaseDateBefore(2000);
+        List<Album> actualList = albumService.getAllAlbumsWithReleaseDateBefore(2000);
 
         assertIterableEquals(expectedList, actualList);
     }

@@ -5,6 +5,6 @@ import store.entity.Album;
 
 import java.util.Optional;
 
-public interface AlbumRepo extends JpaRepository<Album, Long> {
+public interface AlbumRepository extends JpaRepository<Album, Long> {
     Optional<Album> findByAlbumName(String name);
 }
