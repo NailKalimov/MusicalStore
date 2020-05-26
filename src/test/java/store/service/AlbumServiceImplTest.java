@@ -21,14 +21,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 public class AlbumServiceImplTest {
 
-    @TestConfiguration
-    static class Config {
-        @Bean
-        public AlbumService albumService(AlbumRepository albumRepository) {
-            return new AlbumServiceImpl(albumRepository);
-        }
-    }
-
     @Autowired
     private AlbumService albumService;
 
