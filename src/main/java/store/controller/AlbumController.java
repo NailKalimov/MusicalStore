@@ -43,8 +43,4 @@ public class AlbumController {
         albumService.save(album);
     }
 
-//    @PostMapping(path = "/albums/update")
-//    public void updateAlbum(@RequestBody Album album) {
-//        albumDAO.update(album);
-//    }
 }

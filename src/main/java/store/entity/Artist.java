@@ -7,9 +7,10 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Artist.class)
 public class Artist {
     @Id

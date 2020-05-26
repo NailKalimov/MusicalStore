@@ -28,15 +28,19 @@ public class TrackController {
         trackService.deleteById(id);
     }
 
-
     @PostMapping(path = "/tracks/add")
     public void addTrack(@RequestBody Track track) {
         trackService.save(track);
     }
 
-//    @PostMapping(path = "/tracks/update")
-//    public void updateTrack(@RequestBody Track track) {
-//        trackDAO.update(track);
-//    }
+    @GetMapping(path = "/tracks/insertTestData")
+    public void insertTestData(){
+        trackService.insertTestData();
+    }
+
+    @GetMapping(path = "/tracks/deleteAll")
+    public void deleteAll(){
+        trackService.deleteAll();
+    }
 
 }

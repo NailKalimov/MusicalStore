@@ -13,4 +13,8 @@ public interface TrackService {
     public void deleteById(Long id);
 
     public void save(Track track);
+
+    void insertTestData();
+
+    void deleteAll();
 }

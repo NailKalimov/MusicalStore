@@ -18,10 +18,10 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TrackServiceImpl implements TrackService {
 
-    TrackRepository trackRepository;
+    private final TrackRepository trackRepository;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void init() {
+    public void insertTestData() {
         Album album = new Album();
         album.setAlbumName("Звезда по имени Солнце");
         album.setReleaseDate(1989);
@@ -92,6 +92,11 @@ public class TrackServiceImpl implements TrackService {
         track4.setPlayTime("4m27s");
 
         trackRepository.saveAll(Arrays.asList(track, track1, track2, track3, track4));
+    }
+
+    @Override
+    public void deleteAll() {
+        trackRepository.deleteAll();
     }
 
     @Override

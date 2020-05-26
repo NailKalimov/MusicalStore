@@ -33,8 +33,4 @@ public class ArtistController {
         artistService.save(artist);
     }
 
-//    @PostMapping(path = "/artists/update")
-//    public void updateArtist(@RequestBody Artist artist) {
-//        artistDAO.update(artist);
-//    }
 }

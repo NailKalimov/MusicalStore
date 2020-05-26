@@ -10,9 +10,10 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Entity
 @ToString
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Track.class)
 public class Track {
@@ -33,5 +34,4 @@ public class Track {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "album")
     private Album album;
-
 }

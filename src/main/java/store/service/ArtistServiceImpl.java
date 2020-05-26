@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ArtistServiceImpl implements ArtistService {
-    ArtistRepository artistRepository;
+    private final ArtistRepository artistRepository;
 
     @Override
     public Optional<Artist> getById(Long id) {

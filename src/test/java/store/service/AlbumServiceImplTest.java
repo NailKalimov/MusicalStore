@@ -41,6 +41,7 @@ public class AlbumServiceImplTest {
         album.setAlbumName("Звезда по имени Солнце");
         album.setReleaseDate(1989);
         List<Album> expectedList = Collections.singletonList(album);
+
         when(albumRepository.findAll()).thenReturn(expectedList);
 
         List<Album> actualList = albumService.getAllAlbumsWithReleaseDateBefore(2000);
