@@ -14,23 +14,28 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @GetMapping(path = "/artists/{id}")
-    public Optional<Artist> getById(@PathVariable(name = "id") Long id) {
+    public Optional<Artist> getArtistById(@PathVariable(name = "id") Long id) {
         return artistService.getById(id);
     }
 
     @GetMapping(path = "/artists/all")
-    public List<Artist> getAll() {
+    public List<Artist> getAllArtists() {
         return artistService.getAll();
     }
 
-    @GetMapping(path = "/artists/delete/{id}")
-    public void deleteById(@PathVariable(name = "id") Long id) {
+    @DeleteMapping(path = "/artists/delete/{id}")
+    public void deleteArtistById(@PathVariable Long id) {
         artistService.deleteById(id);
     }
 
     @PostMapping(path = "/artists/add")
     public void addArtist(@RequestBody Artist artist) {
         artistService.save(artist);
+    }
+
+    @PutMapping(path = "/artists/update")
+    public void updateAlbum(@RequestBody Artist artist) {
+        artistService.update(artist);
     }
 
 }

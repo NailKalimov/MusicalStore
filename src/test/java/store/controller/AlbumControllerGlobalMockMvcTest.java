@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import store.entity.Album;
+import store.service.AlbumService;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +25,7 @@ public class AlbumControllerGlobalMockMvcTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private AlbumController albumController;
+    private AlbumService albumService;
 
     @Test
     void getAlbums() throws Exception {
@@ -33,7 +34,7 @@ public class AlbumControllerGlobalMockMvcTest {
         album.setReleaseDate(1998);
         List<Album> allAlbums = Collections.singletonList(album);
 
-        when(albumController.getAllAlbum()).thenReturn(allAlbums);
+        when(albumService.getAll()).thenReturn(allAlbums);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/albums/all")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -41,4 +42,5 @@ public class AlbumControllerGlobalMockMvcTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].albumName").value("Гранатовый альбом"));
     }
+
 }

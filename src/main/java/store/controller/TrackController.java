@@ -23,8 +23,8 @@ public class TrackController {
         return trackService.getAll();
     }
 
-    @GetMapping(path = "/tracks/delete/{id}")
-    public void deleteById(@PathVariable(name = "id") Long id) {
+    @DeleteMapping(path = "/tracks/delete/{id}")
+    public void deleteById(@PathVariable Long id) {
         trackService.deleteById(id);
     }
 
@@ -34,13 +34,18 @@ public class TrackController {
     }
 
     @GetMapping(path = "/tracks/insertTestData")
-    public void insertTestData(){
+    public void insertTestData() {
         trackService.insertTestData();
     }
 
     @GetMapping(path = "/tracks/deleteAll")
-    public void deleteAll(){
+    public void deleteAll() {
         trackService.deleteAll();
+    }
+
+    @PutMapping(path = "/tracks/update")
+    public void updateTrack(@RequestBody Track track) {
+        trackService.update(track);
     }
 
 }

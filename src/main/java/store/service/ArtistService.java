@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArtistService {
-    public Optional<Artist> getById(Long id);
+    Optional<Artist> getById(Long id);
 
-    public List<Artist> getAll();
+    List<Artist> getAll();
 
-    public void deleteById(Long id);
+    void deleteById(Long id);
 
-    public void save(Artist artist);
+    void save(Artist artist);
+
+    boolean update(Artist artist);
 }

@@ -1,5 +1,6 @@
 package store.controller;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,14 @@ public class ControllerAdvice {
     public String numberFormatExceptionHandler() {
         System.out.println("------------From Exception Handler Controller : NumberFormatException");
         return "Sorry. Number Format Exception.";
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    @ResponseBody
+    public String emptyResultDataAccessExceptionHandler() {
+        System.out.println("------------From Exception Handler Controller : EmptyResultDataAccessException");
+        return "Sorry. No found entity with this attribute";
     }
 
 }

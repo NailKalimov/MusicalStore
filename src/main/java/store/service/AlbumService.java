@@ -18,4 +18,6 @@ public interface AlbumService {
     void deleteById(Long id);
 
     void save(Album album);
+
+    boolean update(Album album);
 }

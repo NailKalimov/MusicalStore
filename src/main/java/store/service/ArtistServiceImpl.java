@@ -32,4 +32,19 @@ public class ArtistServiceImpl implements ArtistService {
     public void save(Artist artist) {
         artistRepository.save(artist);
     }
+
+    @Override
+    public boolean update(Artist artist) {
+        Optional<Artist> artistOptionalFromDB = artistRepository.findById(artist.getId());
+        if (!artistOptionalFromDB.isPresent()) {
+            System.out.println("--------- Artist not found");
+            return false;
+        }
+        if (artist.getAlbums() == null)
+            artist.setAlbums(artistOptionalFromDB.get().getAlbums());
+        if (artist.getTracks() == null)
+            artist.setTracks(artistOptionalFromDB.get().getTracks());
+        artistRepository.save(artist);
+        return true;
+    }
 }

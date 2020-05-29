@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import store.entity.Album;
 import store.entity.Artist;
 import store.entity.Track;
+import store.repository.AlbumRepository;
 import store.repository.TrackRepository;
 
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class TrackServiceImpl implements TrackService {
 
     private final TrackRepository trackRepository;
+    AlbumRepository albumRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     public void insertTestData() {
@@ -97,6 +99,21 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public void deleteAll() {
         trackRepository.deleteAll();
+    }
+
+    @Override
+    public boolean update(Track track) {
+        Optional<Track> trackOptionalFormDB = trackRepository.findById(track.getId());
+        if (!trackOptionalFormDB.isPresent()) {
+            System.out.println("--------- Track not found");
+            return false;
+        }
+        if (track.getAlbum() == null)
+            track.setAlbum(trackOptionalFormDB.get().getAlbum());
+        if (track.getArtists() == null)
+            track.setArtists(trackOptionalFormDB.get().getArtists());
+        trackRepository.save(track);
+        return true;
     }
 
     @Override

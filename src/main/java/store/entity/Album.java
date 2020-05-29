@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,12 +23,17 @@ public class Album {
 
     private String albumName;
 
-    @ManyToMany(mappedBy = "albums", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "ARTISTS_AND_ALBUMS",
+            joinColumns = @JoinColumn(name = "ALBUM"),
+            inverseJoinColumns = @JoinColumn(name = "ARTIST")
+    )
     private List<Artist> artists;
 
     private int releaseDate;
 
-    @OneToMany(mappedBy = "album", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "album", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Track> trackList;
 
     @Override

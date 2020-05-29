@@ -2,7 +2,9 @@ package store.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,7 +28,10 @@ public class Artist {
     )
     private List<Album> albums;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "artists")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "TRACKS_AND_ARTISTS",
+            joinColumns = @JoinColumn(name = "ARTIST"),
+            inverseJoinColumns = @JoinColumn(name = "TRACK"))
     private List<Track> tracks;
 
     @Override

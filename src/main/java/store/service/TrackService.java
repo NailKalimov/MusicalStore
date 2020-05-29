@@ -6,15 +6,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TrackService {
-    public Optional<Track> getById(Long id);
+    Optional<Track> getById(Long id);
 
-    public List<Track> getAll();
+    List<Track> getAll();
 
-    public void deleteById(Long id);
+    void deleteById(Long id);
 
-    public void save(Track track);
+    void save(Track track);
 
     void insertTestData();
 
     void deleteAll();
+
+    boolean update(Track track);
 }

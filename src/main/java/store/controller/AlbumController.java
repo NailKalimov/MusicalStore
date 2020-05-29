@@ -29,12 +29,12 @@ public class AlbumController {
     }
 
     @GetMapping(path = "/albums/all")
-    public List<Album> getAllAlbum() {
+    public List<Album> getAllAlbums() {
         return albumService.getAll();
     }
 
-    @GetMapping(path = "/albums/delete/{id}")
-    public void deleteAlbumById(@PathVariable(name = "id") Long id) {
+    @DeleteMapping("/albums/delete/{id}")
+    public void deleteAlbumById(@PathVariable Long id) {
         albumService.deleteById(id);
     }
 
@@ -43,4 +43,8 @@ public class AlbumController {
         albumService.save(album);
     }
 
+    @PutMapping(path = "/albums/update")
+    public void updateAlbum(@RequestBody Album album) {
+        albumService.update(album);
+    }
 }
