@@ -23,7 +23,7 @@ public class Album {
 
     private String albumName;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ARTISTS_AND_ALBUMS",
             joinColumns = @JoinColumn(name = "ALBUM"),
             inverseJoinColumns = @JoinColumn(name = "ARTIST")
@@ -32,7 +32,7 @@ public class Album {
 
     private int releaseDate;
 
-    @OneToMany(mappedBy = "album", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "album", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Track> trackList;
 

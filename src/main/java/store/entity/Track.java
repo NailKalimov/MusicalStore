@@ -23,7 +23,7 @@ public class Track {
 
     private String trackName;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade ={CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "TRACKS_AND_ARTISTS",
             joinColumns = @JoinColumn(name = "TRACK"),
             inverseJoinColumns = @JoinColumn(name = "ARTIST"))
@@ -31,7 +31,7 @@ public class Track {
 
     private String playTime;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "album")
     private Album album;
 }

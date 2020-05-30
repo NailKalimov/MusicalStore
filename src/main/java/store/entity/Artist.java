@@ -21,18 +21,17 @@ public class Artist {
 
     private String artistName;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ARTISTS_AND_ALBUMS",
             joinColumns = @JoinColumn(name = "ARTIST"),
             inverseJoinColumns = @JoinColumn(name = "ALBUM")
     )
     private List<Album> albums;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "tracks_and_artists",
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "TRACKS_AND_ARTISTS",
             joinColumns = @JoinColumn(name = "ARTIST"),
-            inverseJoinColumns = @JoinColumn(name = "TRACK")
-    )
+            inverseJoinColumns = @JoinColumn(name = "TRACK"))
     private List<Track> tracks;
 
     @Override
