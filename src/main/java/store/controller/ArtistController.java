@@ -1,5 +1,6 @@
 package store.controller;
 
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import store.entity.Artist;
@@ -10,32 +11,34 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("artists")
 public class ArtistController {
     private final ArtistService artistService;
 
-    @GetMapping(path = "/artists/{id}")
+    @GetMapping(path = "{id}")
     public Optional<Artist> getArtistById(@PathVariable(name = "id") Long id) {
         return artistService.getById(id);
     }
 
-    @GetMapping(path = "/artists/all")
+    @GetMapping
     public List<Artist> getAllArtists() {
         return artistService.getAll();
     }
 
-    @DeleteMapping(path = "/artists/delete/{id}")
+    @DeleteMapping(path = "{id}")
     public void deleteArtistById(@PathVariable Long id) {
         artistService.deleteById(id);
     }
 
-    @PostMapping(path = "/artists/add")
-    public void addArtist(@RequestBody Artist artist) {
+    @PostMapping()
+    public Artist addArtist(@RequestBody Artist artist) {
         artistService.save(artist);
+        return artist;
     }
 
-    @PutMapping(path = "/artists/update")
-    public void updateAlbum(@RequestBody Artist artist) {
-        artistService.update(artist);
+    @PutMapping(path = "{id}")
+    public Artist updateAlbum(@PathVariable Long id, @RequestBody Artist artist) throws NotFoundException {
+        return artistService.update(id, artist);
     }
 
 }

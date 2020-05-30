@@ -1,5 +1,6 @@
 package store.service;
 
+import javassist.NotFoundException;
 import store.entity.Album;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface AlbumService {
 
     void save(Album album);
 
-    boolean update(Album album);
+    Album update(Long id, Album album) throws NotFoundException;
 }

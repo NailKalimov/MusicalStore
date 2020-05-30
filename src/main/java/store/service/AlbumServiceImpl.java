@@ -1,5 +1,6 @@
 package store.service;
 
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import store.entity.Album;
@@ -45,17 +46,18 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public boolean update(Album album) {
-        Optional<Album> albumOptionalFromDB = albumRepository.findById(album.getId());
+    public Album update(Long id, Album album) throws NotFoundException {
+        Optional<Album> albumOptionalFromDB = albumRepository.findById(id);
         if (!albumOptionalFromDB.isPresent()) {
             System.out.println("Album not found");
-            return false;
+            throw new NotFoundException("No found Album");
         }
         if (album.getArtists() == null)
             album.setArtists(albumOptionalFromDB.get().getArtists());
         if (album.getTrackList() == null)
             album.setTrackList(albumOptionalFromDB.get().getTrackList());
+        album.setId(id);
         albumRepository.save(album);
-        return true;
+        return album;
     }
 }

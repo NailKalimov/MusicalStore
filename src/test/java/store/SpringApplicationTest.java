@@ -14,6 +14,7 @@ import store.repository.ArtistRepository;
 import store.repository.TrackRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -52,7 +53,7 @@ public class SpringApplicationTest {
     void integrationTestForAlbums() throws Exception {
         String expectedJson = objectMapper.writeValueAsString(albumRepository.findAll());
 
-        String actualJson = mockMvc.perform(MockMvcRequestBuilders.get("/albums/all")
+        String actualJson = mockMvc.perform(MockMvcRequestBuilders.get("/albums")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -64,12 +65,30 @@ public class SpringApplicationTest {
     void integrationTestForArtists() throws Exception {
         String expectedJson = objectMapper.writeValueAsString(artistRepository.findAll());
 
-        String actualJson = mockMvc.perform(MockMvcRequestBuilders.get("/artists/all")
+        String actualJson = mockMvc.perform(MockMvcRequestBuilders.get("/artists")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
         assertEquals(expectedJson, actualJson);
+    }
+
+    @Test
+    public void testRequestFor_DeleteArtistById_AndExpectResponse() throws Exception {
+        Long id = 2L;
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/artists/{id}", id))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testRequestFor_DeleteAlbumById_AndExpectResponse() throws Exception {
+        Long id = 2L;
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/albums/{id}", id))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
 }

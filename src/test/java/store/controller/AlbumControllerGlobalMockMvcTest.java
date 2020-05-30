@@ -36,7 +36,7 @@ public class AlbumControllerGlobalMockMvcTest {
 
         when(albumService.getAll()).thenReturn(allAlbums);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/albums/all")
+        mockMvc.perform(MockMvcRequestBuilders.get("/albums")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

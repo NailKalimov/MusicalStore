@@ -1,5 +1,6 @@
 package store.service;
 
+import javassist.NotFoundException;
 import store.entity.Artist;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface ArtistService {
 
     void save(Artist artist);
 
-    boolean update(Artist artist);
+    Artist update(Long id, Artist artist) throws NotFoundException;
 }
