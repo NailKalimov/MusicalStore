@@ -23,10 +23,7 @@ public class Track {
 
     private String trackName;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "TRACKS_AND_ARTISTS",
-            joinColumns = @JoinColumn(name = "TRACK"),
-            inverseJoinColumns = @JoinColumn(name = "ARTIST"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "tracks")
     private List<Artist> artists;
 
     private String playTime;
