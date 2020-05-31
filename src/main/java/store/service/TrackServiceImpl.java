@@ -1,5 +1,6 @@
 package store.service;
 
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -102,18 +103,19 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public boolean update(Track track) {
-        Optional<Track> trackOptionalFormDB = trackRepository.findById(track.getId());
+    public Track update(Long id, Track track) throws NotFoundException {
+        Optional<Track> trackOptionalFormDB = trackRepository.findById(id);
         if (!trackOptionalFormDB.isPresent()) {
             System.out.println("--------- Track not found");
-            return false;
+            throw new NotFoundException("Not found Track");
         }
         if (track.getAlbum() == null)
             track.setAlbum(trackOptionalFormDB.get().getAlbum());
         if (track.getArtists() == null)
             track.setArtists(trackOptionalFormDB.get().getArtists());
+        track.setId(id);
         trackRepository.save(track);
-        return true;
+        return track;
     }
 
     @Override

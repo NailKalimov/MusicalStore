@@ -1,5 +1,6 @@
 package store.service;
 
+import javassist.NotFoundException;
 import store.entity.Track;
 
 import java.util.List;
@@ -18,5 +19,5 @@ public interface TrackService {
 
     void deleteAll();
 
-    boolean update(Track track);
+    Track update(Long id, Track track) throws NotFoundException;
 }

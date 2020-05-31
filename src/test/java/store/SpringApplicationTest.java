@@ -41,7 +41,7 @@ public class SpringApplicationTest {
     void integrationTestForTracks() throws Exception {
         String expectedJson = objectMapper.writeValueAsString(trackRepository.findAll());
 
-        String actualJson = mockMvc.perform(MockMvcRequestBuilders.get("/tracks/all")
+        String actualJson = mockMvc.perform(MockMvcRequestBuilders.get("/tracks/")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -78,15 +78,6 @@ public class SpringApplicationTest {
         Long id = 2L;
         mockMvc.perform(MockMvcRequestBuilders
                 .delete("/artists/{id}", id))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testRequestFor_DeleteAlbumById_AndExpectResponse() throws Exception {
-        Long id = 2L;
-        mockMvc.perform(MockMvcRequestBuilders
-                .delete("/albums/{id}", id))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

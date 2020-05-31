@@ -20,7 +20,7 @@ Vue.component('artist-form', {
 
     },
     watch: {
-        artistAttr: function (newVal, oldVal) {
+        artistAttr: function (newVal) {
             this.artistName = newVal.artistName;
             this.id = newVal.id;
         }

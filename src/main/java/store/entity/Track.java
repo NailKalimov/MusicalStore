@@ -1,7 +1,6 @@
 package store.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +22,7 @@ public class Track {
 
     private String trackName;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "TRACKS_AND_ARTISTS",
             joinColumns = @JoinColumn(name = "TRACK"),
@@ -31,6 +31,7 @@ public class Track {
 
     private String playTime;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "album")
     private Album album;

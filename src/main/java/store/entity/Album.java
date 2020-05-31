@@ -1,7 +1,6 @@
 package store.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +22,7 @@ public class Album {
 
     private String albumName;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ARTISTS_AND_ALBUMS",
             joinColumns = @JoinColumn(name = "ALBUM"),

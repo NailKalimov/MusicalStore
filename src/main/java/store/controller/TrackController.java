@@ -1,6 +1,8 @@
 package store.controller;
 
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import store.entity.Track;
 import store.service.TrackService;
@@ -10,32 +12,34 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping(path = "tracks")
 public class TrackController {
     private final TrackService trackService;
 
-    @GetMapping(path = "/tracks/{id}")
+    @GetMapping(path = "{id}")
     public Optional<Track> getById(@PathVariable(name = "id") Long id) {
         return trackService.getById(id);
     }
 
-    @GetMapping(path = "/tracks/all")
+    @GetMapping
     public List<Track> getAll() {
         return trackService.getAll();
     }
 
-    @DeleteMapping(path = "/tracks/delete/{id}")
+    @DeleteMapping(path = "{id}")
     public void deleteById(@PathVariable Long id) {
         trackService.deleteById(id);
     }
 
-    @PostMapping(path = "/tracks/add")
-    public void addTrack(@RequestBody Track track) {
+    @PostMapping()
+    public Track addTrack(@RequestBody Track track) {
         trackService.save(track);
+        return track;
     }
 
-    @GetMapping(path = "/tracks/insertTestData")
-    public void insertTestData() {
-        trackService.insertTestData();
+    @PutMapping(path = "{id}")
+    public Track updateTrack(@PathVariable Long id, @RequestBody Track track) throws NotFoundException {
+        return trackService.update(id, track);
     }
 
     @GetMapping(path = "/tracks/deleteAll")
@@ -43,9 +47,11 @@ public class TrackController {
         trackService.deleteAll();
     }
 
-    @PutMapping(path = "/tracks/update")
-    public void updateTrack(@RequestBody Track track) {
-        trackService.update(track);
+    @GetMapping(path = "/tracks/insertTestData")
+    public void insertTestData() {
+        trackService.insertTestData();
     }
+
+
 
 }

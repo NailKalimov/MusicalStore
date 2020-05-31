@@ -21,7 +21,7 @@ Vue.component('album-form', {
 
     },
     watch: {
-        albumAttr: function (newVal, oldVal) {
+        albumAttr: function (newVal) {
             this.albumName = newVal.albumName;
             this.releaseDate = newVal.releaseDate;
             this.id = newVal.id;
@@ -92,7 +92,7 @@ Vue.component('albums-list', {
         '<div style="position: relative; width: 400px">' +
         '<album-form :albums=albums :albumAttr="album"/>' +
         '<album-row v-for="album in albums" :key="album.id" :album="album"' +
-            ' :editMethod="editMethod" :albums="albums"/>' +
+        ' :editMethod="editMethod" :albums="albums"/>' +
         '</div>',
     created: function () {
         albumApi.get().then(result =>
@@ -115,7 +115,3 @@ var app = new Vue({
         albums: []
     }
 });
-
-
-
-

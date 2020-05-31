@@ -1,5 +1,9 @@
 package store.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +15,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id", scope = Artist.class)
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +30,8 @@ public class Artist {
     )
     private List<Album> albums;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "TRACKS_AND_ARTISTS",
-            joinColumns = @JoinColumn(name = "ARTIST"),
-            inverseJoinColumns = @JoinColumn(name = "TRACK"))
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "artists", cascade = CascadeType.REMOVE)
     private List<Track> tracks;
 
     @Override
